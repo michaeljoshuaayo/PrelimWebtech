@@ -5,10 +5,8 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -16,6 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { NavbarBrand, Navbar, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar as NextUIAvatar } from "@nextui-org/react";
 import { SearchIcon } from '@/public/SearchIcon';
 import ReplyIcon from '@mui/icons-material/Reply';
+import { Image } from "@nextui-org/react";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -27,32 +26,6 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-
-const getRandomColor = (name) => {
-    // Check if the name is defined and not empty
-    if (name && name.length > 0) {
-      // Get the ASCII value of the first letter of the name
-      const charCode = name.charCodeAt(0);
-      // Generate a color based on the ASCII value
-      const colorIndex = charCode % 9;
-      const colors = [
-        red[500],
-        '#2196f3', 
-        '#4caf50', 
-        '#ff9800', 
-        '#9c27b0', 
-        '#ffeb3b', 
-        '#00bcd4', 
-        '#e91e63', 
-        '#795548', 
-      ];
-      return colors[colorIndex];
-    } else {
-      // Return a default color if name is undefined or empty
-      return red[500]; // Red
-    }
-  };
-  
 
 const Posts = () => {
   const [postData, setPostData] = useState([]);
@@ -157,6 +130,7 @@ const Posts = () => {
     </div>
   );
 };
+// Existing imports...
 
 const PostCard = ({ post, user, comments, avatarColors, setAvatarColors }) => {
   const [expanded, setExpanded] = useState(false);
@@ -165,34 +139,27 @@ const PostCard = ({ post, user, comments, avatarColors, setAvatarColors }) => {
     setExpanded((prevExpanded) => !prevExpanded);
   };
 
-  useEffect(() => {
-    if (user && !avatarColors[user.id]) {
-      setAvatarColors(prevState => ({
-        ...prevState,
-        [user.id]: getRandomColor()
-      }));
-    }
-  }, [user, avatarColors, setAvatarColors]);
-
   return (
     <Card sx={{ width: '100%', maxWidth: 1000, marginBottom: 5, boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
       <CardHeader
         avatar={
-        <Avatar sx={{ bgcolor: getRandomColor(user?.name) || getRandomColor('') }} aria-label="recipe">
-            {user ? user.name.charAt(0) : ''}
-        </Avatar>
-          
+          <Image
+            src={`https://i.pravatar.cc/150?img=${user?.id}`}
+            alt={user?.name}
+            width={40}
+            height={40}
+          />
         }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={user ? user.name : ''}
-        subheader={user ? user.email : ''}
+        title={<Typography variant='body1' fontWeight='bold'>{user ? user.name : ''} </Typography>}
+        subheader={<Typography variant='body2' color="primary">{user ? user.email : ''} </Typography>}
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.primary">
           {post.body}
         </Typography>
       </CardContent>
@@ -217,9 +184,14 @@ const PostCard = ({ post, user, comments, avatarColors, setAvatarColors }) => {
             <div key={comment.id}>
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
                 <div style={{marginRight:'1rem'}}>
-                <Avatar sx={{ bgcolor: getRandomColor(comment.name) || getRandomColor('') }} aria-label="comment-avatar">
-                    {comment.email.charAt(0)}
-                </Avatar>
+                  <div style={{ width: 40, height: 40, overflow: 'hidden', borderRadius: '50%' }}>
+                    <Image
+                      src={`https://i.pravatar.cc/150?img=${comment.id}`}
+                      alt={comment.email}
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </div>
                 </div>
                 <Typography variant="body2">
                   <strong>{comment.email}: </strong>{comment.body}

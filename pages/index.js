@@ -236,6 +236,11 @@ export default function App() {
       <div className="chart-container px-20 mt-1 mb-8">
         <Card shadow>
           <CardBody>
+            <h1 style={{marginLeft:'1rem', marginTop:'1rem'}}>
+              <strong>
+                Todo Count Per User
+                </strong>
+              </h1>
             {chartComponent}
           </CardBody>
         </Card>
