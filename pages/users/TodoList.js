@@ -90,9 +90,9 @@ const TodoList = () => {
       <div className="flex justify-center items-center min-h-screen">
         <div className="max-w-md mx-auto mt-8">
           {user && (
-            <Card style={{ marginTop: '2rem', width: '40rem' }}> {/* Adjust the width as needed */}
+            <Card style={{ marginTop: '2rem', width: '40rem' }}> 
               <CardHeader className="text-center" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2 className="font-bold text-lg" style={{ fontSize: '1.5rem' }}>{user.name}'s To-do List</h2>
+                <h2 className="font-bold text-lg" style={{ fontSize: '1.5rem' }}>{user.name}&apos;s To-do List</h2>
                 <div>
                   <Button color="primary" size="small" onClick={() => router.back()}>Go Back</Button>
                 </div>
