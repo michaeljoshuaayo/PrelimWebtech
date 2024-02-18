@@ -1,8 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
+.chart-container {
+  max-width: calc(100% - 19rem); /* Adjust 32rem according to your card width */
+  margin-left: 150px;
+}
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -31,3 +34,4 @@ body {
     text-wrap: balance;
   }
 }
+ */
