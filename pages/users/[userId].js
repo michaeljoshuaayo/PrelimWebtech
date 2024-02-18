@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Avatar, Input } from "@nextui-org/react";
 import { Card, CardHeader, CardBody, Image, CardFooter, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import { SearchIcon } from '@/public/SearchIcon';
-import { Divider } from "@nextui-org/react";
 
-const Users = () => {
-  const [users, setUsers] = useState([]);
+const TodoList = () => {
+  const router = useRouter();
+  const { userId } = router.query;
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((data) => setUsers(data));
-  }, []);
-
-  // Function to generate random avatar URL using Pravatar
-  const generateAvatarUrl = (id) => `https://i.pravatar.cc/150?img=${id % 70 }`;
+    if (userId) {
+      fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`)
+        .then((response) => response.json())
+        .then((data) => setTodos(data));
+    }
+  }, [userId]);
 
   return (
     <div>
-      <Navbar isBordered>
+              <Navbar isBordered>
         <NavbarContent justify="start">
           <NavbarBrand className="mr-4">
             <div className="flex items-center">
@@ -86,52 +88,14 @@ const Users = () => {
           </Dropdown>
         </NavbarContent>
       </Navbar>
-      
-      <div className="cards-container">
-        {users.map((user) => (
-          <Card key={user.id} className="user-card">
-            <CardHeader className="pb-0 pt-2 px-4 flex-col items-center">
-              <h4 style={{}} className="font-bold text-large">{user.name}</h4>
-              <h5 className="text-default-400">Email: {user.email}</h5>
-            </CardHeader>
-            <CardBody className="flex flex-col items-center">
-              <div className="flex justify-center">
-                <Image
-                  alt="User avatar"
-                  className="object-cover rounded-xl"
-                  src={generateAvatarUrl(user.id)}
-                  width={150}
-                  height={150}
-                />
-              </div>
-              <div className="mt-2">
-                <p><strong>Username:</strong> {user.username}</p>
-                <p><strong>Phone:</strong> {user.phone}</p>
-              </div>
-            </CardBody>
-            <Divider />
-            <CardFooter className="flex justify-center">
-              <Link
-                href={`/users/TodoList?userId=${user.id}`} // Link to the user's TODO list page
-              >
-                View {user.name} To-do List
-              </Link>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
-
-      <style jsx>{`
-        .cards-container {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr); 
-          gap: 1rem;
-          padding: 0 20rem;
-          margin-top: 3rem ;
-        }
-      `}</style>
+      <h1>User To-do List</h1>
+      {todos.map((todo) => (
+        <div key={todo.id}>
+          <p>{todo.title}</p>
+        </div>
+      ))}
     </div>
   );
-}
+};
 
-export default Users;
+export default TodoList;

@@ -3,8 +3,6 @@ import {Card, CardHeader, CardBody, CardFooter} from "@nextui-org/react";
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar} from "@nextui-org/react";
 import { SearchIcon } from '@/public/SearchIcon';
 import { MdPeople, MdDescription, MdComment, MdAssignment } from 'react-icons/md';
-import { color } from "framer-motion";
-
 
 export default function App() {
   const [userNum, userCount] = useState(0);
